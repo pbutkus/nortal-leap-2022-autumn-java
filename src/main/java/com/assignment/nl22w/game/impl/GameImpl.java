@@ -1,9 +1,9 @@
 package com.assignment.nl22w.game.impl;
 
 import com.assignment.nl22w.game.Game;
-import com.assignment.nl22w.game.impl.logic.BFS;
-import com.assignment.nl22w.game.impl.models.Coordinate;
+import com.assignment.nl22w.game.impl.logic.ExitFinder;
 import com.assignment.nl22w.game.impl.models.GameMap;
+import com.assignment.nl22w.game.impl.services.GameMapBuilder;
 import com.assignment.nl22w.game.impl.services.GameMapReader;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.Resource;
@@ -20,11 +20,22 @@ public class GameImpl implements Game {
 	public int escapeFromTheWoods(Resource resource) throws IOException {
 		//		TODO start your journey here
 		GameMapReader fileReader = new GameMapReader(resource);
-		GameMap gameMap = fileReader.readMap();
-		BFS solver = new BFS();
+		GameMapBuilder gameMapBuilder = new GameMapBuilder();
 
-		List<Coordinate> path = solver.solve(gameMap);
+		List<String> gameMapAsListOfStrings = fileReader.readMap();
 
-		return path.size() - 1;
+		if (gameMapAsListOfStrings.isEmpty()) {
+			return 0;
+		}
+
+		GameMap gameMap = gameMapBuilder.build(gameMapAsListOfStrings);
+
+		if (!gameMap.isExitPresent()) {
+			return 0;
+		}
+
+		ExitFinder exitFinder = new ExitFinder(gameMap);
+
+		return exitFinder.findExit();
 	}
 }

@@ -2,18 +2,14 @@ package com.assignment.nl22w.game.impl.models;
 
 public class GameMap {
 
-    private String[][] gameMap;
-    private Coordinate startCoordinate;
-    private int potentialExitsCounter;
+    private final int[][] gameMap;
+    private final Coordinate startCoordinate;
+    private final boolean exitPresent;
 
-    public GameMap(String[][] map) {
+    public GameMap(int[][] map, Coordinate startCoordinate, boolean exitPresent) {
         this.gameMap = map;
-        this.startCoordinate = new Coordinate(0, 0);
-        this.potentialExitsCounter = 0;
-    }
-
-    public void increaseExitCounter() {
-        potentialExitsCounter += 1;
+        this.startCoordinate = startCoordinate;
+        this.exitPresent = exitPresent;
     }
 
     public boolean isValidLocation(int row, int col) {
@@ -21,24 +17,22 @@ public class GameMap {
     }
 
     public boolean isWall(int row, int col) {
-        return gameMap[row][col].equals("1");
+        return gameMap[row][col] == 1;
     }
 
     public boolean isExplored(int row, int col) {
-        return gameMap[row][col].equals("4");
+        return gameMap[row][col] == 4;
     }
 
     public boolean isExit(int row, int col) {
-        return gameMap[row][col].equals("3");
+        return gameMap[row][col] == 3;
     }
 
     public void setVisited(int row, int col) {
-        if (gameMap[row][col].equals("0")) {
-            gameMap[row][col] = "4";
-        }
+        gameMap[row][col] = 4;
     }
 
-    public String[][] getGameMap() {
+    public int[][] getGameMap() {
         return gameMap;
     }
 
@@ -54,12 +48,8 @@ public class GameMap {
         return gameMap.length;
     }
 
-    public void setGameMap(String[][] gameMap) {
-        this.gameMap = gameMap;
-    }
-
-    public void setStartCoordinates(Coordinate startCoordinate) {
-        this.startCoordinate = startCoordinate;
+    public boolean isExitPresent() {
+        return exitPresent;
     }
 
 }
