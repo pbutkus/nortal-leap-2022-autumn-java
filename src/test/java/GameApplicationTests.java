@@ -1,9 +1,5 @@
 import com.assignment.nl22w.game.Game;
 import com.assignment.nl22w.game.impl.GameImpl;
-import com.assignment.nl22w.game.impl.logic.ExitFinder;
-import com.assignment.nl22w.game.impl.logic.MapGen;
-import com.assignment.nl22w.game.impl.models.Coordinate;
-import com.assignment.nl22w.game.impl.models.GameMap;
 import com.assignment.nl22w.game.impl.validators.GameMapValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,7 +13,6 @@ public class GameApplicationTests {
 
     Game game = new GameImpl();
     GameMapValidator validator = new GameMapValidator();
-    MapGen mapGen = new MapGen();
 
     @Test
     @DisplayName("Validate line \"x1XILLEGALX1x\" which contains illegal characters, should be false")
@@ -62,36 +57,39 @@ public class GameApplicationTests {
     }
 
     @Test
-    @DisplayName("Test a map with multiple exits, should return 1")
+    @DisplayName("Test a map with multiple starting points, should return 0")
+    void testMapWithMultipleStartingPoints() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_with_multiple_starting_points.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map where starting point is at the exit, should return 0")
+    void testMapWhereStartIsAtExit() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_where_starting_point_is_at_exit.txt")));
+    }
+
+    @Test
+    @DisplayName("Test reading non existing file, should return 0")
+    void testNonExistingFile() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("NON_EXISTING.txt")));
+    }
+
+    @Test
+    @DisplayName("Test steps count of 100 by 100 map, should return 195")
     void testMap100by100() throws IOException {
         assertEquals(195, game.escapeFromTheWoods(new ClassPathResource("map_100x100.txt")));
     }
 
     @Test
-    void testMap1000by1000() {
-        int[][] mockMap = mapGen.generate(1000, 1000);
-        GameMap gameMap = new GameMap(mockMap, new Coordinate(1, 1), true);
-        ExitFinder exitFinder = new ExitFinder(gameMap);
-
-        assertEquals(1995, exitFinder.findExit());
+    @DisplayName("Test steps count of 1000 by 1000 map, should return 1995")
+    void testMap1000by1000() throws IOException {
+        assertEquals(1995, game.escapeFromTheWoods(new ClassPathResource("map_1000x1000.txt")));
     }
 
     @Test
-    void testMap5000by5000() {
-        int[][] mockMap = mapGen.generate(5000, 5000);
-        GameMap gameMap = new GameMap(mockMap, new Coordinate(1, 1), true);
-        ExitFinder exitFinder = new ExitFinder(gameMap);
-
-        assertEquals(9995, exitFinder.findExit());
-    }
-
-    @Test
-    void testMap11000by11000() {
-        int[][] mockMap = mapGen.generate(11000, 11000);
-        GameMap gameMap = new GameMap(mockMap, new Coordinate(1, 1), true);
-        ExitFinder exitFinder = new ExitFinder(gameMap);
-
-        assertEquals(21995, exitFinder.findExit());
+    @DisplayName("Test steps count of 5000 by 5000 map, should return 9995")
+    void testMap5000by5000() throws IOException {
+        assertEquals(9995, game.escapeFromTheWoods(new ClassPathResource("map_5000x5000.txt")));
     }
 
 }
