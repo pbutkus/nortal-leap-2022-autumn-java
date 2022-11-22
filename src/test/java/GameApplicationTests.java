@@ -58,6 +58,12 @@ public class GameApplicationTests {
     }
 
     @Test
+    @DisplayName("Test steps count of map3, should return 170")
+    void testMap3() throws IOException {
+        assertEquals(170, game.escapeFromTheWoods(new ClassPathResource("map3.txt")));
+    }
+
+    @Test
     @DisplayName("Test a map which does not contain any exits, should return 0")
     void testMapWithoutExits() throws IOException {
         assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_no_exits.txt")));

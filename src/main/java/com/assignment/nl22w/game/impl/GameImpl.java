@@ -27,7 +27,10 @@ public class GameImpl implements Game {
 		Square[][] squareMap = mapReader.getSquareMap();
 		Coordinate start = mapReader.getStart();
 
-		if (!validator.isSquareMapValid(squareMap) || !validator.isStartValid(start)) {
+		if (!validator.isSquareMapValid(squareMap)
+				|| !validator.isStartValid(start)
+				|| !validator.isSquareMapWithinSizeLimits(squareMap)) {
+
 			return 0;
 		}
 

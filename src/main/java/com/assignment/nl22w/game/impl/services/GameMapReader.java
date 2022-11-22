@@ -6,6 +6,8 @@ import com.assignment.nl22w.game.impl.validators.GameMapValidator;
 import org.springframework.core.io.Resource;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class GameMapReader {
@@ -24,6 +26,7 @@ public class GameMapReader {
 
     public void readMap() {
         try (Scanner input = new Scanner(resource.getFile())) {
+            List<Square[]> tempSquareList = new ArrayList<>();
             int row = 0;
             int prevLineLength = Integer.MIN_VALUE;
 
@@ -32,24 +35,20 @@ public class GameMapReader {
 
                 if (prevLineLength == Integer.MIN_VALUE) {
                     prevLineLength = line.length();
-                } else if (!validator.isMapSquare(prevLineLength, line.length())) {
-                    squareMap = new Square[1][];
+                } else if (!validator.isMapRectangular(prevLineLength, line.length())) {
                     return;
                 }
 
-                if (row == 0) {
-                    squareMap = new Square[line.length()][];
-                }
-
                 if (validator.isLineValid(line)) {
-                    squareMap[row] = convertLine(line, row);
+                    tempSquareList.add(convertLine(line, row));
                 } else {
-                    squareMap = new Square[1][];
                     return;
                 }
 
                 row++;
             }
+
+            squareMap = tempSquareList.toArray(new Square[tempSquareList.size()][]);
         } catch (IOException e) {
             squareMap = new Square[1][];
         }

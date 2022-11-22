@@ -21,11 +21,18 @@ public class GameMapValidator {
         return squareMap.length >= 5 && squareMap[0].length >= 5;
     }
 
+    public boolean isSquareMapWithinSizeLimits(Square[][] squareMap) {
+        boolean row = squareMap.length >= 5 && squareMap.length <= 11000;
+        boolean col = squareMap[0].length >= 5 && squareMap[0].length <= 11000;
+
+        return row && col;
+    }
+
     public boolean isStartValid(Coordinate start) {
         return start.x() >= 0 && start.y() >= 0;
     }
 
-    public boolean isMapSquare(int prevLineLength, int curLineLength) {
+    public boolean isMapRectangular(int prevLineLength, int curLineLength) {
         return prevLineLength == curLineLength;
     }
 
