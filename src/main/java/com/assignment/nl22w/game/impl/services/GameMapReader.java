@@ -25,9 +25,17 @@ public class GameMapReader {
     public void readMap() {
         try (Scanner input = new Scanner(resource.getFile())) {
             int row = 0;
+            int prevLineLength = Integer.MIN_VALUE;
 
             while (input.hasNextLine()) {
                 String line = input.nextLine();
+
+                if (prevLineLength == Integer.MIN_VALUE) {
+                    prevLineLength = line.length();
+                } else if (!validator.isMapSquare(prevLineLength, line.length())) {
+                    squareMap = new Square[1][];
+                    return;
+                }
 
                 if (row == 0) {
                     squareMap = new Square[line.length()][];

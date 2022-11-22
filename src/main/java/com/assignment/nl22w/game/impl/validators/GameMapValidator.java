@@ -25,4 +25,8 @@ public class GameMapValidator {
         return start.x() >= 0 && start.y() >= 0;
     }
 
+    public boolean isMapSquare(int prevLineLength, int curLineLength) {
+        return prevLineLength == curLineLength;
+    }
+
 }

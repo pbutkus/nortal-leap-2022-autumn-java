@@ -60,7 +60,6 @@ public class ExitFinder {
             Coordinate child = getChildCoordinate(node.y(), node.x(), direction[1], direction[0]);
 
             if (map.isExit(child.y(), child.x())) {
-                System.out.println(child);
                 exitFound = true;
             }
 
