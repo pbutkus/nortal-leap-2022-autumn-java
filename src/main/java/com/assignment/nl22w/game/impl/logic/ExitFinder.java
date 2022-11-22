@@ -65,8 +65,8 @@ public class ExitFinder {
             }
 
             if (map.isValidLocation(child.y(), child.x())
-                    && !map.isWall(child.y(), child.x())) {
-                if (!map.isExplored(child.y(), child.x())) {
+                    && !map.isTree(child.y(), child.x())) {
+                if (!map.isVisited(child.y(), child.x())) {
                     map.setVisited(child.y(), child.x());
                     childrenList.add(child);
                 }
