@@ -1,5 +1,6 @@
 import com.assignment.nl22w.game.Game;
 import com.assignment.nl22w.game.impl.GameImpl;
+import com.assignment.nl22w.game.impl.models.Coordinate;
 import com.assignment.nl22w.game.impl.validators.GameMapValidator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,7 +16,7 @@ public class GameApplicationTests {
     GameMapValidator validator = new GameMapValidator();
 
     @Test
-    @DisplayName("Validate line \"x1XILLEGALX1x\" which contains illegal characters, should be false")
+    @DisplayName("Validate line \"x1XILLEGALX1x\" which contains illegal characters, should return false")
     void testInvalidLineCharacters() {
         assertFalse(validator.isLineValid("x1XILLEGALX1x"));
     }
@@ -30,6 +31,18 @@ public class GameApplicationTests {
     @DisplayName("Validate line \"111 111X11\", should return true")
     void testValidLine() {
         assertTrue(validator.isLineValid("111 111X11"));
+    }
+
+    @Test
+    @DisplayName("Validate invalid starting (X: -1; Y: -1) point, should return false")
+    void testInvalidStart() {
+        assertFalse(validator.isStartValid(new Coordinate(-1, -1)));
+    }
+
+    @Test
+    @DisplayName("Validate valid starting point, should return true")
+    void testValidStart() {
+        assertTrue(validator.isStartValid(new Coordinate(1, 1)));
     }
 
     @Test
@@ -78,6 +91,30 @@ public class GameApplicationTests {
     @DisplayName("Test a map which is too small, should return 0")
     void testMapSmall() throws IOException {
         assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_small.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which is too big, should return 0")
+    void testMapBig() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_big.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which has no reachable exits, should return 0")
+    void testMapUnreachableExit() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_unreachable_exit.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which contains multiple starting points, should return 0")
+    void testMapMultipleStartingPoints() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_multiple_starting_points.txt")));
+    }
+
+    @Test
+    @DisplayName("Test opening non-existing file, should return 0")
+    void testNonExisting() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("NON_EXISTING.txt")));
     }
 
     @Test
