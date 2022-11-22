@@ -19,7 +19,6 @@ public class GameImpl implements Game {
 
 	@Override
 	public int escapeFromTheWoods(Resource resource) throws IOException {
-		//		TODO start your journey here
 		GameMapReader mapReader = new GameMapReader(resource);
 		GameMapValidator validator = new GameMapValidator();
 
@@ -33,6 +32,10 @@ public class GameImpl implements Game {
 		}
 
 		GameMap gameMap = new GameMap(squareMap, start);
+
+		if (gameMap.isExit(start.y(), start.x())) {
+			return 0;
+		}
 
 		ExitFinder exitFinder = new ExitFinder(gameMap);
 

@@ -45,15 +45,39 @@ public class GameApplicationTests {
     }
 
     @Test
-    @DisplayName("Test a map without exits, should return 0")
+    @DisplayName("Test a map which does not contain any exits, should return 0")
     void testMapWithoutExits() throws IOException {
-        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_without_exits.txt")));
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_no_exits.txt")));
     }
 
     @Test
-    @DisplayName("Test a map with multiple exits, should return 1")
+    @DisplayName("Test a map which contains multiple exits, should return 1")
     void testMapWithMultipleExits() throws IOException {
-        assertEquals(1, game.escapeFromTheWoods(new ClassPathResource("map_with_multiple_exits.txt")));
+        assertEquals(1, game.escapeFromTheWoods(new ClassPathResource("map_multiple_exits.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which contains starting point as exit, should return 0")
+    void testMapWithStartAsExit() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_starting_point_as_exit.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which is not square, should return 0")
+    void testMapNotSquare() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_not_square.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which contains illegal characters, should return 0")
+    void testMapIllegalCharacter() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_illegal_characters.txt")));
+    }
+
+    @Test
+    @DisplayName("Test a map which is too small, should return 0")
+    void testMapSmall() throws IOException {
+        assertEquals(0, game.escapeFromTheWoods(new ClassPathResource("map_small.txt")));
     }
 
     @Test
@@ -66,6 +90,12 @@ public class GameApplicationTests {
     @DisplayName("Test steps count of 1000 by 1000 map, should return 1995")
     void testMap1000by1000() throws IOException {
         assertEquals(1995, game.escapeFromTheWoods(new ClassPathResource("map_1000x1000.txt")));
+    }
+
+    @Test
+    @DisplayName("Test steps count of 5000 by 5000 map, should return 9995")
+    void testMap5000by5000() throws IOException {
+        assertEquals(9995, game.escapeFromTheWoods(new ClassPathResource("map_5000x5000.txt")));
     }
 
 }

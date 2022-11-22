@@ -25,7 +25,6 @@ public class GameMap {
     }
 
     public boolean isExit(int row, int col) {
-        //TODO fix
         if (isTree(row, col)) {
             return false;
         }
